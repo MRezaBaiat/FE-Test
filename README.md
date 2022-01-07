@@ -10,7 +10,7 @@ test files can be found at '/tests' and '/src/screens/main-screen' folder
 
 ##Demo
 
-[![Demo](./src/assets/demo.mp4)](https://www.youtube.com/watch?v=ek1j272iAmc)
+[![Demo](./src/assets/demo.mp4)](./src/assets/demo.mp4)
 
 ## 📝 Notes
 
