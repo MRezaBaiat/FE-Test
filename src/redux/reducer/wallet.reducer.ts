@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { actionExchange } from '../actions/currencies.actions';
+import { actionSetWallet } from '../actions/wallet.actions';
 import { CurrencyType } from '../../models';
 
-export const balanceReducer = createReducer({
+export const walletReducer = createReducer({
   [CurrencyType.USD]: 200,
   [CurrencyType.EUR]: 150,
   [CurrencyType.GBP]: 10
 }, (builder) => {
-  builder.addCase(actionExchange, (state, action) => action.payload);
+  builder.addCase(actionSetWallet, (state, action) => action.payload);
 });

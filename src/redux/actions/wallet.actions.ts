@@ -1,14 +1,23 @@
 import { CurrencyType } from '../../models';
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAction } from '@reduxjs/toolkit';
+import { actionConvert } from './currencies.actions';
+import { ExchangeSession } from '../../models/exchange.session';
 
-export const actionExchange = createAction('currencies/exchange', (from: CurrencyType, to: CurrencyType, amount: number) => {
-  return {
-
-  };
-});
-
-export const actionConvertCurrency = (from: CurrencyType, to: CurrencyType, amount: number) => {
+export const actionExchange = (session: ExchangeSession) => {
   return (dispatch, getState) => {
-    return amount * 2;
+    const converted = dispatch(actionConvert(session.fromType, session.toType, session.fromAmount));
+    const wallet = { ...getState().walletReducer };
+    if (wallet[session.fromType] < session.fromAmount) {
+      return;
+    }
+    wallet[session.fromType] -= session.fromAmount;
+    wallet[session.toType] += converted;
+    dispatch(actionSetWallet(wallet));
   };
 };
+
+export const actionSetWallet = createAction('wallet/set', (wallet: {[key in CurrencyType]: number}) => {
+  return {
+    payload: wallet
+  };
+});

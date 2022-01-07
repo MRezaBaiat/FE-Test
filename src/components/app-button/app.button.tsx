@@ -4,17 +4,17 @@ import { Text, TouchableOpacity, ViewStyle } from 'react-native';
 interface Props {
     style?: ViewStyle,
     text: string,
-    onClick: ()=> void
+    onPress: ()=> void
 }
-function Button (props: Props) {
-  const {} = props;
+function AppButton (props: Props) {
+  const { onPress, text, style } = props;
   return (
-    <TouchableOpacity>
-        <Text>
-
+    <TouchableOpacity style={style} onPress={onPress}>
+        <Text style={{ color: 'white' }}>
+            {text}
         </Text>
     </TouchableOpacity>
   );
 }
 
-export default React.memo(Button);
+export default React.memo(AppButton);

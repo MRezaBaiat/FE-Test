@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { cleanup, fireEvent, render, act } from '@testing-library/react-native';
-import { mockAsyncFnc, wrapper } from '../../../../tests/test.utils';
+import { cleanup, fireEvent, render } from '@testing-library/react-native';
+import { renderHook, act } from '@testing-library/react-hooks';
+import { mockAsyncFnc, wrapper, wait } from '../../../../tests/test.utils';
 import MainScreen from '../main.screen';
+import useLoader from '../../../hooks/use.loader';
 
 afterEach(cleanup);
 
@@ -10,27 +12,25 @@ describe('main.screen', () => {
     render(<MainScreen/>, { wrapper });
   });
 
-  test('login button should display error if mobile is not valid', async () => {
-    const { getByTestId, UNSAFE_getAllByType } = render(<MainScreen/>, { wrapper });
-    const mobileInput = getByTestId('mobile_input');
-    const registerButton = getByTestId('register_button');
-    fireEvent.changeText(mobileInput, '09305211601');
-    await act(() => {
-      return fireEvent.press(registerButton);
+  test('test useLoader() hook', async () => {
+    const hook = renderHook(() => useLoader(), {
+      wrapper
     });
-    expect(UNSAFE_getAllByType(Hint).length).toEqual(1);
+    expect(hook.result.current).toEqual(true);
   });
 
-  test('login button should pass if mobile is valid', async () => {
-    SocketService.authApi().signIn = mockAsyncFnc();
-    const { getByTestId, UNSAFE_getAllByType } = render(<LoginScreen/>, { wrapper });
-    const mobileInput = getByTestId('mobile_input');
-    const registerButton = getByTestId('register_button');
-    fireEvent.changeText(mobileInput, '989305211601');
-    await act(() => {
-      return fireEvent.press(registerButton);
-    });
-    expect(SocketService.authApi().signIn).toBeCalledTimes(1);
-    expect(() => UNSAFE_getAllByType(Hint)).toThrow();
+  test('Test inputs working correctly', async () => {
+    const { getByTestId } = render(<MainScreen/>, { wrapper });
+    const fromInput = getByTestId('from-input');
+    const toInput = getByTestId('to-input');
+    fireEvent.changeText(fromInput, '100');
+    expect(toInput.props.value).toEqual('1500');
+  });
+
+  test('Test error will be displayed when from amount is bigger than balance', async () => {
+    const { getByTestId, getAllByTestId } = render(<MainScreen/>, { wrapper });
+    const fromInput = getByTestId('from-input');
+    fireEvent.changeText(fromInput, '10000');
+    expect(getAllByTestId('error-text').length).toEqual(1);
   });
 });

@@ -1,28 +1,18 @@
-import React, { Suspense, useEffect } from 'react';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useWindowDimensions } from 'react-native';
-import { routesStack } from '../app';
+import MainScreen from '../screens/main-screen/main.screen';
 
 const Stack = createStackNavigator();
 
 export default () => {
-  const dimensions = useWindowDimensions();
   return (
       <Stack.Navigator
-          initialRouteName={'builderx'}
+          initialRouteName={'main'}
           screenOptions={{
             animationTypeForReplace: 'push',
-            headerShown: false,
-            cardStyle: {
-              width: dimensions.width,
-              height: dimensions.height
-            }
+            headerShown: false
           }}>
-                  {
-                      Object.keys(routesStack).map((name) => {
-                        return <Stack.Screen name={name} component={routesStack[name]}/>;
-                      })
-                  }
+          <Stack.Screen name={'main'} component={MainScreen}/>
       </Stack.Navigator>
   );
 };
