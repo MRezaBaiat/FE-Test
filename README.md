@@ -11,7 +11,3 @@ test files can be found at '/tests' and '/src/screens/main-screen' folder
 #Demo
 
 [![Demo](./src/assets/demo.gif)](./src/assets/demo.gif)
-
-## 📝 Notes
-
-- [Expo TypeScript guide](https://docs.expo.dev/versions/latest/guides/typescript/)
