@@ -8,9 +8,9 @@ make sure you have `expo-cli` installed first.
 
 test files can be found at '/tests' and '/src/screens/main-screen' folder
 
-##Demo
+#Demo
 
-[![Demo](./src/assets/demo.mp4)](./src/assets/demo.mp4)
+[![Demo](./src/assets/demo.gif)](./src/assets/demo.gif)
 
 ## 📝 Notes
 
