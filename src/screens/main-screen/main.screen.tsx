@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -41,6 +41,7 @@ const MainView = () => {
     toType: CurrencyType.USD
   } as ExchangeSession);
 
+  const ratio = useMemo(() => round(dispatch(actionConvert(session.fromType, session.toType, 1))), [session.fromType, session.toType]);
   const balance = useBalance(session.fromType);
 
   const exchange = useCallback(() => {
@@ -59,7 +60,7 @@ const MainView = () => {
   return (
         <View style={styles.container}>
             <Text style={styles.baseBoard}>
-                1{CurrencySymbols[session.fromType]} = {round(dispatch(actionConvert(session.fromType, session.toType, 1)))}{CurrencySymbols[session.toType]}
+                1{CurrencySymbols[session.fromType]} = {ratio}{CurrencySymbols[session.toType]}
             </Text>
             <View style={styles.box}>
                 <WalletView
